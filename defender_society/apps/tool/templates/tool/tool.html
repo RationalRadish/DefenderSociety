@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load blog_tags tool_tags%}
+
+{% block head_title %}Online tools to improve work efficiency{% endblock %}
+{% block metas %}
+<meta name="description" content="Online tools, providing webmaster tools including Baidu active push tool, friend link detection, regular expression tool, etc., to facilitate batch operations, improve work efficiency, and tools continue to increase">
+<meta name="keywords" content="Online tools, SEO tools, webmaster tools, crawler tools">
+{% endblock %}
+
+
+{% block top-file %}
+<link href="{% static 'tool/css/tool.css' %}?v=20180107.08" rel="stylesheet">
+{% endblock %}
+
+{% block base_content %}
+<div class="container">
+     <div class="row tool-list">
+         {% get_toollist_by_key as tool_list %}
+         {% for tool_item in tool_list %}
+         {% load_tool_item tool_item %}
+         {% endfor %}
+     </div>
+</div>
+{% endblock %}

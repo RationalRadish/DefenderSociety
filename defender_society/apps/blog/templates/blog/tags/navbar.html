@@ -1,0 +1,86 @@
+{% load static oauth_tags  %}
+<nav class="navbar navbar-expand-lg navbar-absolute blog-navbar py-md-0">
+    <a class="navbar-brand d-md-none d-lg-block" id="site-logo-name" href="{% url 'blog:index' %}">
+        <strong class="px-2">{{site_logo_name}}</strong>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item mr-2">
+                {% url 'blog:index' as index_url %}
+                <a class="nav-link py-md-3 {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}"><i class="fa fa-home mr-1"></i>Community<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item mr-2">
+                {% url 'blog:archive' as archive_url %}
+                <a class="nav-link py-md-3 {% if request.path == archive_url %}active{% endif %}" href="{{ archive_url }}"><i class="fa fa-sitemap mr-1"></i>Contact Us</a>
+            </li>
+            <li class="nav-item mr-2">
+                {% url 'blog:calendar' as calendar_url %}
+                <a class="nav-link py-md-3 {% if request.path == calendar_url %}active{% endif %}" href="{{ calendar_url }}"><i class="fa fa-balance-scale mr-1"></i>Events</a>
+            </li>
+            {% if hao_console.flag %}
+            <li class="nav-item mr-2 d-none d-lg-block">
+                <a class="nav-link py-md-3" href="{{ hao_console.url }}" target="_blank"><i class="fa fa-chrome mr-1"></i>{ {hao_console.name }}</a>
+            </li>
+            {% endif %}
+            {% if api_flag %}
+            <li class="nav-item mr-2">
+                <a class="nav-link py-md-3" href="{% url 'api:api-root' %}" target="_blank"><i class="fa fa-key mr-1"> </i>API</a>
+            </li>
+            {% endif %}
+            <li class="nav-item mr-2 ">
+                {% url 'blog:about' as about_url %}
+                <a class="nav-link py-md-3 {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}"><i class="fa fa-anchor mr-1"></i>About</a>
+            </li>
+
+             <li class="nav-item mr-2 ">
+                {% url 'blog:eligibility' as eligibility_url %}
+                <a class="nav-link py-md-3 {% if request.path == eligibility_url %}active{% endif %}" href="{{ eligibility_url }}"><i class="fa fa-anchor mr-1"></i>Eligbility Rules</a>
+            </li>
+     
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform" action="{% url 'blog:search_view'%}">
+                <div class="input-group">
+                    <input type="search" name="q" class="form-control rounded-0" placeholder="site search" autocomplete="off" required=True>
+                </div><!-- /input-group -->
+            </form>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false" title="{{ user.username }}, welcome back!">
+                    {% if msgnum > 0%}
+                    <span class="get-msg text-center">{{ msgnum }}</span>
+                    {% endif %}
+                    {% get_user_avatar_tag user %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right mt-0 rounded-0 border-0" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item pl-3" href="{% url 'oauth:profile' %}"><i class="fa fa-fw fa-user text-info mr-2"></i >Personal Information</a>
+                    {% if user.is_staff %}
+                    <a class="dropdown-item pl-3" href="{% url 'admin:index' %}"><i
+                            class="fa fa-fw fa-key text-info mr-2"></i>Background management</a>
+                    {% endif %}
+                    <a class="dropdown-item pl-3" href="{% url 'account_logout' %}"><i
+                            class="fa fa-fw fa-sign-out text-info mr-2"></i>Sign out</a>
+                </div>
+            </li>
+            {% else %}
+            <li class="nav-item mr-2">
+                <a class="nav-link py-md-3" href="{% url 'account_login' %}?next={{ request.path }}">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link py-md-3" href="{% url 'account_signup' %}?next={{ request.path }}">Sign up</a>
+            </li>
+             {% endif %}
+         </ul>
+     </div>
+</nav>
+
+
+

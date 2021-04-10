@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load blog_tags %}
+
+{% block head_title %} The Defender Society {% endblock %}
+{% block metas %}
+    <meta name="description" content="{{ site_description }}">
+    <meta name="keywords" content="{{ site_keywords }}">
+    <!--Master verification-->
+    {% if site_verification %}{{ site_verification|safe }}{% endif %}
+{% endblock %}
+
+{% block base_content %}
+{% load static %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            {% include "blog/tags/carousel.html" %}
+            <div>
+            </div>
+            <br/>
+            {% load_article_summary articles %}
+            {% if is_paginated %}{% load_pages %}{% endif %}
+        </div>
+        <div class="col-lg-4">
+            {% include "blog/tags/base_right.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

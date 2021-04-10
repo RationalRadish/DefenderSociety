@@ -1,0 +1,178 @@
+{% load static %}
+{% load tctip_tags %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <!-- TDK and ICO -->
+    <title>{% block head_title %}{% endblock %}</title>
+    {%  block  metas  %}
+    <meta name="description" content="{{ site_description }}">
+    <meta name="keywords" content="{{ site_keywords }}">
+    <meta name ="instagram_profile_name" content = "bbbskentuckiana">
+    {% endblock %}
+    <link rel="shortcut icon" href="{% static 'blog/img/big_b_icon.ico'%}" type="image/x-icon"/>
+    <!-- Bootstrap and font-awesome CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+    <script src="{% static 'blog/js/headroom.min.js'%}"></script>
+    <!-- blog CSS -->
+    <link href="{% static 'blog/css/base.css' %}?v=20200919.03" rel="stylesheet">
+    {% block top-file %}{% endblock %}
+
+    {% load_tctip %}
+</head>
+<body>
+<!-- Navigation start -->
+{% include 'blog/tags/navbar.html' %}
+<!-- Navigation End -->
+
+
+<!-- Back to top button -->
+<div class="text-center" id="to-top" title="Back to top"></div>
+
+{% block additional_styles %}
+
+<div class="wrapper">
+    <div class="page-header page-header-smallfront">
+        <div class="page-header-image" data-parallax="true" style="background-image: url('/static/blog/img/header.jpg')">
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<br>
+
+<!-- Main content blocks -->
+<main>
+
+{% block base_content %}
+
+{% endblock %}
+
+
+</main>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- JS  the cookie plugin -->
+<script src="{% static 'blog/js/js.cookie.min.js'%}?v=20191123.12"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+$(function(){var myElement=document.querySelector(".blog-navbar");var headroom=new Headroom(myElement);headroom.init()});
+</script>
+<script src="{% static 'blog/js/base.js'%}?v=20191123.0909890"></script>
+{% if user.is_authenticated %}
+<script>
+
+if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_record++;if(_record%2){document.title='[ ]'+myTitle}else{document.title= '[New News]'+myTitle};setTimeout("titleBlink()",500)};titleBlink()}
+</script>
+{% endif %}
+
+{% block end_file %}
+        <footer class="footer">
+            <div class="container">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h5>About Us</h5>
+                            <ul class="links-vertical">
+                                <li>
+                                    <a href="#pablo" class="text-muted">
+                                        About Us
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#pablo" class="text-muted">
+                                        Contact Us
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2">
+                            <h5>Get Involved</h5>
+                            <ul class="links-vertical">
+                                <li>
+                                    <a href="#pablo" class="text-muted">
+                                        Donate Now
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#pablo" class="text-muted">
+                                        How to Register
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Social Feed</h5>
+                            <div class="social-feed">
+                                <div class="feed-line">
+                                    <i class="fa fa-twitter"></i>
+                                    <p>How to handle ethical disagreements with your clients.</p>
+                                </div>
+                                <div class="feed-line">
+                                    <i class="fa fa-twitter"></i>
+                                    <p>The tangible benefits of designing at 1x pixel density.</p>
+                                </div>
+                                <div class="feed-line">
+                                    <i class="fa fa-facebook-square"></i>
+                                    <p>A collection of 25 stunning sites that you can use for inspiration.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Follow Us</h5>
+                            <ul class="social-buttons">
+                                <li>
+                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-twitter btn-round">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-facebook btn-round">
+                                        <i class="fa fa-facebook-square"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-dribbble btn-round">
+                                        <i class="fa fa-dribbble"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-google btn-round">
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-instagram btn-round">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="copyright">
+                    Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> Big Brothers Big Sisters of Kentuckiana All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+</footer>
+
+{% endblock %}
+</body>
+</html>

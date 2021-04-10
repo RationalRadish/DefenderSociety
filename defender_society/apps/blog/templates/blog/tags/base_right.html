@@ -1,0 +1,38 @@
+{% load cache blog_tags static instagram_client %}
+{% get_shared_article_list as shared_articles %}
+
+<!--Personal Space-->
+
+
+<div class="card border-0 rounded-0 " id="home-card">
+    <div class="card-header bg-white px-0">
+        <strong><i class="fa fa-paper-plane mr-2 f-17"></i>Big Brothers Big Sisters News</strong>
+    
+  <div class="summary-list">
+    {% for article in shared_articles %}
+    <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
+            <h2 class="mt-0 font-weight-bold text-info f-17">
+                <a href="{{ article.hyperlink_address }}" target="_blank">{{ article.title}}</a>
+            </h2>
+
+    {% endfor %}
+
+</div>
+
+</div>
+
+
+<!-- <--Tag Cloud-->
+<!-- <div class="card border-0 rounded-0 px-3 mb-2 mb-md-3" id="tag-card">
+    <div class="card-header bg-white px-0">
+        <strong><i class="fa fa-tags mr-2 f-17"></i>Check us Out on Instagram! </strong>
+    </div>
+<h1>Instagram media wall</h1>
+{% instagram_user_recent_media '@intel' %}
+            {% for media in recent_media %}
+            <div class="gallery-slider-img {% if forloop.counter == 1 %}slick-current{%endif%}">
+                <a href="//instagram.com/p/{{ media.shortcode }}" target="_blank">
+                    <img class="grow-insta" src="{{ media.thumbnail_src }}" alt=""></a>
+            </div></div>
+                        {% endfor %}
+ --> 

@@ -1,0 +1,73 @@
+{% extends "tool/base_tool.html" %}
+{% load static %}
+
+{% block head_title %}Friend link detection tool, which can batch check whether the anti-links of friendship links are valid_Webmaster Tools{% endblock %}
+{% block metas %}
+<meta name="description" content="Friend link detection tool is an efficient tool for checking friendship links. It can check whether the anti-link of the friendship link is valid in real time, and help the webmaster know the status of the friendship link in time to make adjustments">
+<meta name="keywords" content="Friendly link query, friend link detection, online tool, webmaster tool, anti-link query">
+{% endblock %}
+
+{% block tool_name %}Friend chain detection tool{% endblock %}
+{% block left_content %}
+<div class="card-body p-0">
+    <h3 class="card-title pl-2 title-info">Tool description:</h3>
+    <ul>
+        <li>This tool can check the status of friendship links in batches, and check whether the friend links added by the webmaster still have backlinks to their own website, so that the webmaster can delete and adjust invalid links</li>
+        <li>First fill in the information that needs to be detected (usually your website address) in the form below, and then fill in the links of the friend chain in batches, and click "start detection" to wait for the results to return</li>
+        <li>Note: The friendship link may not be placed on the homepage of the friend site, so be sure to fill in the link of the page where the friend link is placed on the friend site, otherwise it will be judged that no friend link has been added</li>
+    </ul>
+</div>
+<div class="mb-3">
+    <div class="form-group">
+        <label>Information to be detected:</label>
+        <input type="text" class="form-control rounded-0" id="form-info"
+               placeholder="example: href=&quot;https://www.example.com&quot;"
+               required>
+        <small class="form-text text-muted">Note: The detected information is generally the address that you provide to your friends site, that is, the address of your website</small>
+    </div>
+    <div class="form-group">
+        <label>Friendly link address:</label>
+        <textarea class="form-control rounded-0" id="form-links" rows="5" required
+                  placeholder="The example is as follows:&#10;http://www.example1.com/&#10;http://www.example2.com/friends/&#10;http://www.example3.com/ youlian/"></textarea>
+        <small class="form-text text-muted">Note: The friend links of the friend site may not always be on the homepage, and the link is provided wherever the friend link is placed</small>
+    </div>
+    <button type="submit" class="btn btn-info btn-sm rounded-0" id="start-push">Start testing</button>
+</div>
+<div class="card mb-3 rounded-0">
+    <div class="card-header text-center text-info font-weight-bold py-2">Test results</div>
+    <div class="card-body push-result text-center p-0"><div class="p-3">Result display area</div></div>
+</div>
+<h3 class="mb-3 pl-2 title-info">Interpretation of test result parameters:</h3>
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">Status information</th>
+        <th scope="col">Status description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">true</th>
+        <td>The friend chain exists and the information can be detected</td>
+    </tr>
+    <tr>
+        <th scope="row">false</th>
+        <td>The friend chain does not exist, and the information is not checked.</td>
+    </tr>
+    <tr>
+        <th scope="row">bad url</th>
+        <td>The friend link page cannot be opened and cannot be detected. The friend link URL may be wrong</td>
+    </tr>
+    </tbody>
+</table>
+{% endblock %}
+
+{% block end_f %}
+<script>
+$('#start-push').click(function() {
+link_test_spider("{{ csrf_token }}", "{% url'tool:link_test_api' %}");
+})
+
+
+</script>
+{% endblock %}

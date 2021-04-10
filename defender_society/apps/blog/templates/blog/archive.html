@@ -1,0 +1,107 @@
+{% extends "blog/base.html" %}
+{% load cache %}
+{% load static %}
+{% load humanize %}
+{% load blog_tags %}
+
+{% block head_title %}Contact Us{% endblock %}
+
+{% block top-file %}
+<style type="text/css">
+.archive {
+    line-height: 2;
+}
+</style>
+{% endblock %}
+
+
+{% block additional_styles %}
+
+<div class="wrapper">
+    <div class="page-header page-header-small">
+        <div class="page-header-image" data-parallax="true" style="background-image: url('/static/blog/img/contact1.jpg')">
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block base_content %}
+        <div class="main">
+            <div class="contact-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5 ml-auto mr-auto">
+                            <h2 class="title">Send us a message</h2>
+                            <p class="description">Please reach out if you would like to get involved or have questions about the Defenders Society. We'll get in touch with you as soon as possible.
+                                <br>
+                                <br>
+                            </p>
+                            <form role="form" id="contact-form" method="post">
+                                <label>Your name</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Your Name..." aria-label="Your Name...">
+                                </div>
+                                <label>Email address</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"></i></span>
+                                    </div>
+                                    <input type="email" class="form-control" placeholder="Email Here..." aria-label="Email Here...">
+                                </div>
+                                <label>Phone</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Number Here...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Your message</label>
+                                    <textarea name="message" class="form-control" id="message" rows="6"></textarea>
+                                </div>
+                                <div class="submit text-center">
+                                    <input type="submit" class="btn btn-primary btn-raised btn-round" value="Contact Us" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-5 ml-auto mr-auto">
+                            <div class="info-contact info-horizontal mt-5">
+                                <div class="icon icon-primary">
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Main office</h4>
+                                    <p> 1519 Gardiner Lane
+                                        <br> Louisville, KY 40218
+                                    </p>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="info-contact info-horizontal">
+                                <div class="icon icon-primary">
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Give us a ring</h4>
+                                    <p> (502) 587-0494
+                                        <br> (877) 588-2300
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

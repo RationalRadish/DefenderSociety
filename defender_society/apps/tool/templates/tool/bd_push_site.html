@@ -1,0 +1,82 @@
+{% extends "tool/base_tool.html" %}
+{% load static %}
+
+{% Block head_title%} Baidu initiative to push the use of online tools, real time submit a website link, accelerate web content to crawl _ Webmaster Tools {% endblock%}
+{% block metas%}
+    <meta name = "description" content = "Baidu Active Push Tool is a webmaster tool that pushes links online in real time. This tool calls the active submission API interface provided by the Baidu webmaster platform to automatically push website links to Baidu in batches to make web pages Be included in Baidu faster, speed up crawling speed and improve efficiency.">
+    <meta name = "keywords" content = "Baidu active push tool, automatic submission, webmaster tool, Baidu inclusion, real-time submission, online tool">
+{% endblock %}
+
+{% block tool_name% }Baidu active push tool{% endblock%}
+{% block left_content %}
+<div class="card-body p-0">
+    <h3 class = "card-title pl-2 title-info"> Tool description: </ h3>
+    <ul>
+        <li> The official push interface provided by the Baidu webmaster platform used by this tool </ li>
+        <li> The function of the tool is to submit website links in batches and actively push them to Baidu for inclusion. Please check for specific functions.
+            <a class="text-info" href="https://ziyuan.baidu.com/linksubmit/index" target="_blank">Official instructions</a>
+        </li>
+        <li> First copy the "interface call address" provided by the Baidu webmaster into the form below, and then enter the link to be submitted by your own website according to the example, and click the submit button to see the returned information. < / li>
+        <li> This tool is suitable for old sites where most of the links on the website have been included by Baidu, new sites are recommended
+            <A class = "text-info" the href = "URL {%'Tool: baidu_push_site'}%"> a Sitemap active push </ A> can be directly linked to submit the batch entire station
+        </li>
+    </ul>
+</div>
+<div class="mb-3">
+    <div class="form-group">
+        <label> Interface call address: </ label>
+        <input type="url" class="form-control rounded-0" id="form-url"
+               placeholder="example: http://data.zz.baidu.com/urls?site=www.example.com&token=NpU0****tTQAlBV"
+               required>
+        <small class = "form-text text-muted"> Note: Please fill in the interface call address provided to you by the Baidu webmaster platform </ small>
+    </div>
+    <div class="form-group">
+        <label> URL link: </ label>
+        <textarea class="form-control rounded-0" id="form-urls" rows="5" required
+                  placeholder="The example is as follows:&#10;http://www.example.com/mip/&#10;http://www.example.com/mip/1.html&#10;http://www. example.com/mip/2.php"></textarea>
+        <Small class = "text-form text-muted"> Note: links domain names must be submitted with the interface site to keep up to push successfully </ Small>
+    </div>
+    <button type="submit" class="btn btn-info btn-sm rounded-0" id="start-push">Start push</button>
+</div>
+<div class="card mb-3 rounded-0">
+    <div class = "card-header text-center text-info font-weight-bold py-2"> Push results </ div>
+    <div class = "card-body table-responsive push-result text-center py-3"> Result display area </ div>
+</div>
+<h3 class = "mb-3 pl-2 title-info"> Interpretation of push result parameters: </ h3>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+           aria-selected = "true"> Push successfully </ a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+           aria-selected = "false"> Push failed </ a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <p class = "my-1 text-muted" >The status code is 200, and the following fields may be returned: </ p>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Field</th>
+                <th scope = "col"> Whether it must be passed </ th>
+                <th scope = "col"> Parameter type </ th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">remain</th>
+                <td>Yes</td>
+                <td>int</td>
+                <td >The remaining number of pushable URLs for the day </ td>
+            </tr>
+            <tr>
+                <th scope="row">success</th>
+                <td>Yes</td>
+                <td>int</td>
+                <td> Number of URLs successfully pushed </ td>
+            </tr>
+            <tr>
+                <th scope="row">not_same_site</th>
