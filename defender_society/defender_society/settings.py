@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sites', # This is built-in, it will create a sites table to store the domain name
     'allauth',
     'allauth.account',
- #   'allauth.socialaccount',
+   'allauth.socialaccount',
 
     'rest_framework',
 

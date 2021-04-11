@@ -1,5 +1,5 @@
 {% load static %}
-{% load tctip_tags %}
+{% load tctip_tags oauth_tags %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -78,6 +78,12 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
 {% endif %}
 
 {% block end_file %}
+{% url 'blog:eligibility' as eligibility_url %}
+{% url 'blog:about' as about_url %}
+{% url 'blog:archive' as archive_url %}
+{% url 'blog:contact' as contact_url %}
+
+
         <footer class="footer">
             <div class="container">
                 <div class="content">
@@ -86,12 +92,12 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
                             <h5>About Us</h5>
                             <ul class="links-vertical">
                                 <li>
-                                    <a href="#pablo" class="text-muted">
+                                    <a href="{{ about_url }}" class="text-muted">
                                         About Us
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#pablo" class="text-muted">
+                                    <a href="{{ contact_url }}" class="text-muted">
                                         Contact Us
                                     </a>
                                 </li>
@@ -101,12 +107,12 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
                             <h5>Get Involved</h5>
                             <ul class="links-vertical">
                                 <li>
-                                    <a href="#pablo" class="text-muted">
+                                    <a href="https://donate.bbbsky.org/checkout/2455" class="text-muted">
                                         Donate Now
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#pablo" class="text-muted">
+                                    <a href="{{ eligibility_url }}" class="text-muted">
                                         How to Register
                                     </a>
                                 </li>
@@ -133,27 +139,22 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
                             <h5>Follow Us</h5>
                             <ul class="social-buttons">
                                 <li>
-                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-twitter btn-round">
+                                    <a href="https://twitter.com/bbbskentuckiana" class="btn btn-icon btn-neutral btn-twitter btn-round">
                                         <i class="fa fa-twitter"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-facebook btn-round">
+                                    <a href="https://m.facebook.com/bbbskentuckiana/" class="btn btn-icon btn-neutral btn-facebook btn-round">
                                         <i class="fa fa-facebook-square"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-dribbble btn-round">
-                                        <i class="fa fa-dribbble"></i>
+                                    <a href="https://www.linkedin.com/company/big-brothers-big-sisters-of-kentuckiana" class="btn btn-icon btn-neutral btn-linkedin btn-round">
+                                        <i class="fa fa-linkedin"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-google btn-round">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#pablo" class="btn btn-icon btn-neutral btn-instagram btn-round">
+                                    <a href="https://www.instagram.com/bbbskentuckiana/" class="btn btn-icon btn-neutral btn-instagram btn-round">
                                         <i class="fa fa-instagram"></i>
                                     </a>
                                 </li>

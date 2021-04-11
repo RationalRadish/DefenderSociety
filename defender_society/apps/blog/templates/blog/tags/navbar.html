@@ -14,15 +14,15 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item mr-2">
                 {% url 'blog:index' as index_url %}
-                <a class="nav-link py-md-3 {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}"><i class="fa fa-home mr-1"></i>Community<span class="sr-only">(current)</span></a>
+                <a class="nav-link py-md-3 {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}"><i class="fa mr-1"></i>Community<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item mr-2">
-                {% url 'blog:archive' as archive_url %}
-                <a class="nav-link py-md-3 {% if request.path == archive_url %}active{% endif %}" href="{{ archive_url }}"><i class="fa fa-sitemap mr-1"></i>Contact Us</a>
+                {% url 'blog:contact' as contact_url %}
+                <a class="nav-link py-md-3 {% if request.path == contact_url %}active{% endif %}" href="{{ contact_url }}"><i class="fa mr-1"></i>Contact Us</a>
             </li>
             <li class="nav-item mr-2">
                 {% url 'blog:calendar' as calendar_url %}
-                <a class="nav-link py-md-3 {% if request.path == calendar_url %}active{% endif %}" href="{{ calendar_url }}"><i class="fa fa-balance-scale mr-1"></i>Events</a>
+                <a class="nav-link py-md-3 {% if request.path == calendar_url %}active{% endif %}" href="{{ calendar_url }}"><i class="fa mr-1"></i>Events</a>
             </li>
             {% if hao_console.flag %}
             <li class="nav-item mr-2 d-none d-lg-block">
@@ -36,12 +36,12 @@
             {% endif %}
             <li class="nav-item mr-2 ">
                 {% url 'blog:about' as about_url %}
-                <a class="nav-link py-md-3 {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}"><i class="fa fa-anchor mr-1"></i>About</a>
+                <a class="nav-link py-md-3 {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}"><i class="fa mr-1"></i>About</a>
             </li>
 
              <li class="nav-item mr-2 ">
                 {% url 'blog:eligibility' as eligibility_url %}
-                <a class="nav-link py-md-3 {% if request.path == eligibility_url %}active{% endif %}" href="{{ eligibility_url }}"><i class="fa fa-anchor mr-1"></i>Eligbility Rules</a>
+                <a class="nav-link py-md-3 {% if request.path == eligibility_url %}active{% endif %}" href="{{ eligibility_url }}"><i class="fa mr-1"></i>Eligibility Rules</a>
             </li>
      
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -73,9 +73,6 @@
             {% else %}
             <li class="nav-item mr-2">
                 <a class="nav-link py-md-3" href="{% url 'account_login' %}?next={{ request.path }}">Log in</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link py-md-3" href="{% url 'account_signup' %}?next={{ request.path }}">Sign up</a>
             </li>
              {% endif %}
          </ul>

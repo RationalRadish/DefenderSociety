@@ -36,11 +36,12 @@ sitemaps = {
 urlpatterns = [
     path('adminx/', admin.site.urls),
     path('accounts/', include('allauth.urls')), # allauth
+   # path('search/', include('search.urls')),
     path('accounts/', include(('oauth.urls','oauth'), namespace='oauth')), # oauth, only show a user login interface
     path('', include(('blog.urls','blog'), namespace='blog')), # blog
 #    path('comment/',include(('comment.urls','comment'),namespace='comment')), # comment
  #   path('robots.txt', robots, name='robots'), # robots
- #   path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'), # Sitemap
+   path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'), # Sitemap
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Join this to display the media file
 
 if settings.API_FLAG:

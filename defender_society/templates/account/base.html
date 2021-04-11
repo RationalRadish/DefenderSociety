@@ -1,14 +1,11 @@
-{% extends "blog/base.html" %}
+{% extends 'blog/base.html' %}
 {% load static blog_tags %}
 
 {% block metas %}
-    <meta name="description" content="User account management, use django-allauth social user system, support Weibo, Github and other social account logins, join {{ site_end_title }} to see more information.">
+    <meta name="description" content="User account management, join {{ site_end_title }} to see more information.">
     <meta name="keywords" content="django-allauth,social user system,OAuth 2.0">
 {% endblock %}
 
-{% block top-file %}
-<link href="{% static 'blog/css/account.css' %}?v=20171229.019906" rel="stylesheet">
-{% endblock %}
 
 {% block base_content %}
 <div class="container">
@@ -23,19 +20,9 @@
                     <div class="login-title">
                         <span>Quick login</span>
                     </div>
-                    <div class="login-link">
-                        {% get_request_param request 'next' as next_url %}
-                        <a class="mx-4" href="/accounts/weibo/login/?next={{ next_url }}" title="Social account login is a bit slow, please be patient!"><i class="fa fa -weibo fa-2x"></i></a>
-                        <a class="mx-4" href="/accounts/github/login/?next={{ next_url }}" title="Social account login is a bit slow, please be patient!"><i class="fa fa -github fa-2x"></i></a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block end_file %}
-{% block extra_body %}
-{% endblock %}
 {% endblock %}

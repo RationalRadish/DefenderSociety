@@ -16,7 +16,7 @@ from django.conf import settings
 from .models import *
 from .utils import Calendar
 from .forms import EventForm, AddMemberForm
-# from . utils  import  site_full_url
+from . utils  import  site_full_url
 from django.core.cache import cache
 
 from markdown.extensions.toc import TocExtension  # Anchor extension
@@ -31,9 +31,9 @@ from haystack.query import SearchQuerySet
 
 
 
-class ArchiveView(generic.ListView):
+class ContactView(generic.ListView):
     model = Article
-    template_name = 'blog/archive.html'
+    template_name = 'blog/contact.html'
     context_object_name = 'articles'
     paginate_by = 200
     paginate_orphans = 50
@@ -157,6 +157,7 @@ def EligibleView(request):
 # Rewrite the search view, you can add some additional parameters, and you can redefine the name
 class MySearchView(SearchView):
     context_object_name = 'search_list'
+    template_name = 'blog/search.html'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
     queryset = SearchQuerySet().order_by('-views')
