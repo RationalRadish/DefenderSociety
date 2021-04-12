@@ -13,7 +13,6 @@ def settings_info(request):
         'site_description': settings.SITE_DESCRIPTION,
         'site_keywords': settings.SITE_KEYWORDS,
         'api_flag': settings.API_FLAG,
-        'cnzz_protocol': settings.CNZZ_PROTOCOL,
         'site_verification': settings.MY_SITE_VERIFICATION,
         'site_url': site_full_url(),
     }

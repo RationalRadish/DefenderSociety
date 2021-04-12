@@ -21,7 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR,'apps'))
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -34,12 +33,13 @@ API_FLAG = os.getenv('defender_society_API_FLAG','False').upper() =='TRUE'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('defender_society_DEBUG','True').upper() =='TRUE'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sites', # This is built-in, it will create a sites table to store the domain name
     'allauth',
     'allauth.account',
-   'allauth.socialaccount',
+    'allauth.socialaccount',
 
     'rest_framework',
 
@@ -65,10 +65,7 @@ INSTALLED_APPS = [
     'blog', # Blog application
    # 'tool', # tool
     #'comment', # Comment
-    'django_tctip',
-    'django_extensions',
-    'sorl.thumbnail',
-    'django_instagram',
+
 ]
 
 
@@ -120,7 +117,7 @@ ROOT_URLCONF = 'defender_society.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join( BASE_DIR , 'templates' )], # set View
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,6 +125,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.context_processors.settings_info' ,   # Custom context manager
             ],
         },
     },
@@ -173,7 +171,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 # Media file collection
@@ -205,17 +202,17 @@ REST_FRAMEWORK = {
 
  #Configure the database
 MYSQL_HOST = os.getenv('defender_society_MYSQL_HOST', '127.0.0.1')
-MYSQL_NAME = os.getenv('defender_society_MYSQL_NAME','izone')
+MYSQL_NAME = os.getenv('defender_society_MYSQL_NAME','test')
 MYSQL_USER = os.getenv('defender_society_MYSQL_USER','root')
-MYSQL_PASSWORD = os.getenv('defender_society_MYSQL_PASSWORD','python')
+MYSQL_PASSWORD = os.getenv('defender_society_MYSQL_PASSWORD','Whiskeyman42!')
 MYSQL_PORT = os.getenv('defender_society_MYSQL_PORT', 3306)
 
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.mysql', # Modify the database to MySQL and configure
-        'NAME': 'test', # The name of the database
-        'USER': 'root', # database user name
-        'PASSWORD': 'Whiskeyman42!', # database password
+        'NAME': MYSQL_NAME, # The name of the database
+        'USER': MYSQL_USER, # database user name
+        'PASSWORD': MYSQL_PASSWORD, # database password
         'HOST': MYSQL_HOST,
         'PORT': MYSQL_PORT,
         'OPTIONS': {'charset':'utf8'}
