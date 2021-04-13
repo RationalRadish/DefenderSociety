@@ -8,8 +8,8 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${defender_society_MYSQL_NAME}
+      MYSQL_ROOT_PASSWORD: "Whiskeyman42!"
+      MYSQL_DATABASE: "test"
     networks:
       - backend
 
@@ -31,9 +31,9 @@ services:
       - static_data:/vol/web
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
     environment:
-      defender_society_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      defender_society_MYSQL_PASSWORD: "Whiskeyman42!"
       defender_society_MYSQL_HOST: db
-      defender_society_MYSQL_NAME: ${defender_society_MYSQL_NAME}
+      defender_society_MYSQL_NAME:  "test"
       defender_society_MYSQL_USER: root
       defender_society_MYSQL_PORT: 3306
       defender_society_REDIS_HOST: redis

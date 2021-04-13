@@ -2,7 +2,6 @@
 
 set -e
 
-. /opt/pysetup/.venv/bin/activate
 
 # Pull all the static files into the root directory for deployment
 python manage.py collectstatic --noinput

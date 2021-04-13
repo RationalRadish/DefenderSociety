@@ -170,12 +170,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/static'
-STATIC_ROOT = '/vol/web/static'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#STATIC_ROOT = '/vol/web/static/'
 
 # Media file collection
-MEDIA_URL ='/static/media/'
-MEDIA_ROOT = '/vol/web/media'
+MEDIA_URL ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#MEDIA_ROOT = '/vol/web/media/'
 
 # Unified paging settings
 BASE_PAGE_BY = 10
@@ -201,7 +205,7 @@ REST_FRAMEWORK = {
 }
 
  #Configure the database
-MYSQL_HOST = os.getenv('defender_society_MYSQL_HOST', '127.0.0.1')
+MYSQL_HOST = os.getenv('defender_society_MYSQL_HOST', 'localhost')
 MYSQL_NAME = os.getenv('defender_society_MYSQL_NAME','test')
 MYSQL_USER = os.getenv('defender_society_MYSQL_USER','root')
 MYSQL_PASSWORD = os.getenv('defender_society_MYSQL_PASSWORD','Whiskeyman42!')
