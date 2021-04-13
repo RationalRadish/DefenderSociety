@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "ignitechallenge"
+version = "0.1.0"
+description = "Blog for The Defender Society"
+authors = ["Miles T <miles_taylor@b-f.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+gunicorn = "19.9.0"
+Django = "^2.2.13"
+bleach = "^3.1.4"
+django-allauth = "^0.44.0"
+bootstrap-admin = "^0.4.3"
+django-appconf = "^1.0.3"
+django-crispy-forms = "^1.7.2"
+django-haystack = "^2.8.1"
+django-imagekit = "^4.0.2"
+django-redis = "^4.12.1"
+djangorestframework = "^3.10.3"
+Pillow = "^6.2.0"
+html5lib = "^1.0.1"
+jieba = "^0.39"
+Markdown = "^3.1.1"
+olefile = "^0.46"
+Whoosh = "^2.7.4"
+django-tctip = "^1.4.2"
+PyMySQL = "^0.9.3"
+user_agent = "^0.1.9"
+Pygments = "^2.4.2"
+emoji = "^1.2.0"
+mysqlclient = "^2.0.3"
+django-extensions = "^3.1.2"
+django-instagram = "^0.3.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

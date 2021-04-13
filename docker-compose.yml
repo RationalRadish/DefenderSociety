@@ -1,0 +1,72 @@
+version: '3.9'
+services:
+
+  db:
+    restart: always
+    image: mysql
+    container_name: defender_society_db
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${defender_society_MYSQL_NAME}
+    networks:
+      - backend
+
+  redis:
+    restart: always
+    image: redis
+    container_name: defender_society_redis
+    networks:
+      - backend
+
+  app:
+    restart: always
+    build:
+        context: ./defender_society
+    container_name: django
+    ports:
+      - "8000:8000"
+    volumes:
+      - static_data:/vol/web
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      defender_society_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      defender_society_MYSQL_HOST: db
+      defender_society_MYSQL_NAME: ${defender_society_MYSQL_NAME}
+      defender_society_MYSQL_USER: root
+      defender_society_MYSQL_PORT: 3306
+      defender_society_REDIS_HOST: redis
+      defender_society_REDIS_PORT: 6379
+
+    env_file:
+        - defender_society/.env
+
+    depends_on:
+        - db
+        - redis
+    networks:
+        - backend
+        - frontend
+
+  proxy:
+    build:
+      context: ./nginx
+
+    volumes:
+      - static_data:/vol/static
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+    networks:
+      - frontend
+volumes:
+  static_data:
+  db_data:
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
