@@ -69,7 +69,7 @@ RUN pip install --upgrade pip  && pip --no-cache-dir install "poetry==$POETRY_VE
 
 RUN poetry export --without-hashes --format requirements.txt --output requirements.txt
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt && pip install uwsgi
 
 
 
@@ -94,21 +94,16 @@ RUN chmod +x /scripts/*
 
 # Create folders for the media being served
 
-RUN mkdir -p /vol/web/media
-RUN mkdir -p /vol/web/static
-RUN mkdir -p /vol/web/whoosh_index
+RUN mkdir -p /vol/web/media && mkdir -p /vol/web/static && mkdir -p /vol/web/whoosh_index
 
-# Create new user in the application, no root
-RUN adduser -D user
-#User can access the vol
-RUN chown -R user:user /vol
-
-#full access
-RUN chmod -R 755 /vol/web
-
-USER user
+# Create new user in the application, no root. #User can access the vol
+RUN adduser -D user && chown -R user:user /vol && chmod -R 755 /vol/web
 
 EXPOSE 8000
 
-CMD [".docker-entrypoint.sh"]
+
+USER user
+
+
+#CMD ["/docker-entrypoint.sh"]
 

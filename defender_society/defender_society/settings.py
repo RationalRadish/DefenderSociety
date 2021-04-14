@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(BASE_DIR,'apps'))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  os.getenv('defender_society_SECRET_KEY','7)88%-kng%o!m042sk1g9mcdt^bi9=w*(4y2)scscxe!nuu2w&')
+SECRET_KEY = os.getenv('defender_society_SECRET_KEY','7)88%-kng%o!m042sk1g9mcdt^bi9=w*(4y2)scscxe!nuu2w&')
 
 API_FLAG = os.getenv('defender_society_API_FLAG','False').upper() =='TRUE'
 
@@ -33,7 +33,7 @@ API_FLAG = os.getenv('defender_society_API_FLAG','False').upper() =='TRUE'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('defender_society_DEBUG','True').upper() =='TRUE'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['bbbsky-alumni.org', 'www.bbbsky-alumni.org']
 
 
 # Application definition
@@ -208,7 +208,7 @@ REST_FRAMEWORK = {
 MYSQL_HOST = os.getenv('defender_society_MYSQL_HOST', 'localhost')
 MYSQL_NAME = os.getenv('defender_society_MYSQL_NAME','test')
 MYSQL_USER = os.getenv('defender_society_MYSQL_USER','root')
-MYSQL_PASSWORD = os.getenv('defender_society_MYSQL_PASSWORD','Whiskeyman42!')
+MYSQL_PASSWORD = os.getenv('defender_society_MYSQL_PASSWORD','strong1Passwor!d')
 MYSQL_PORT = os.getenv('defender_society_MYSQL_PORT', 3306)
 
 DATABASES = {
