@@ -1,11 +1,10 @@
 version: '3.9'
+
 services:
-
   db:
-
     restart: always
 
-    image: mysql
+    image: postgres:13
 
     container_name: defender_society_db
 
@@ -13,87 +12,77 @@ services:
       - db_data:/var/lib/mysql
 
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${defender_society_MYSQL_NAME}
-      MYSQL_USER: ${defender_society_MYSQL_USER}
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
 
-    env_file:
-      - .env
     networks:
       - backend
 
   redis:
-
     restart: always
     image: redis
     container_name: defender_society_redis
     networks:
       - backend
 
+
   app:
 
     restart: always
-
     build:
         context: ./defender_society
 
     container_name: django
 
     volumes:
-      - ./defender_society/static:/vol/web/static
-      - ./defender_society/media:/vol/web/media
-      - ./defender_society/whoosh_index:/vol/web/whoosh_index
+      - static_data:/vol/web/static
+      - static_data:/vol/web/media
+      - static_data:/vol/web/whoosh_index
 
+    ports:
+      -  "8000:8000"
     expose:
-      - "8000"
-
-    command:  ["/prod-entrypoint.sh"]
-
+      -  "8000"
     environment:
-      defender_society_MYSQL_USER: ${defender_society_MYSQL_USER}
-      defender_society_MYSQL_NAME: ${defender_society_MYSQL_NAME}
-      defender_society_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      DEBUG: 'FALSE'
-      defender_society_SECRET_KEY: ${defender_society_SECRET_KEY}
-      defender_society_MYSQL_HOST: db
-      defender_society_MYSQL_PORT: 3306
+      defender_society_POSTGRES_USER: "${defender_society_POSTGRES_USER}"
+      defender_society_POSTGRES_NAME: "${defender_society_POSTGRES_NAME}"
+      defender_society_POSTGRES_PASSWORD: "${defender_society_POSTGRES_NAME}"
+      defender_society_SECRET_KEY: "${defender_society_SECRET_KEY}"
+      defender_society_POSTGRES_HOST: db
+      defender_society_POSTGRES_PORT: 5432
       defender_society_REDIS_HOST: redis
       defender_society_REDIS_PORT: 6379
 
-    env_file:
-        - .env
-
     depends_on:
-        - db
-        - redis
+       - db
+       - redis
 
     networks:
         - backend
         - frontend
 
   proxy:
+      build:
+         context: ./nginx
 
-    build:
-      context: ./nginx
-
-    volumes:
-      - ./defender_society/static:/vol/static
-      - ./defender_society/media:/vol/media
-
-    ports:
-      - "80:80"
-
-    depends_on:
-      - app
-
-    networks:
-      - frontend
+      volumes:
+        - static_data:/vol/static
+        - static_data:/vol/media
+      networks:
+        - frontend
+      ports:
+        - "80:80"
+      depends_on:
+        - app
 
 volumes:
   db_data:
+  static_data:
 
 networks:
   backend:
     driver: bridge
   frontend:
     driver: bridge
+

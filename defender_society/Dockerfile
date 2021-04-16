@@ -42,7 +42,9 @@ RUN apk add --update --no-cache libc-dev \
   libxslt-dev \
    libxml2-dev \
    openssl-dev \
-   mariadb-connector-c-dev
+   mariadb-connector-c-dev \
+   postgresql \
+   postgresql-dev
 
 ########################################################################################################################
 
@@ -65,11 +67,12 @@ RUN python -m venv /venv
 
 COPY pyproject.toml .
 
-RUN pip install --upgrade pip  && pip --no-cache-dir install "poetry==$POETRY_VERSION"
+
+RUN pip install --upgrade pip  && pip install wheel && pip --no-cache-dir install "poetry==$POETRY_VERSION"
 
 RUN poetry export --without-hashes --format requirements.txt --output requirements.txt
 
-RUN pip install -r requirements.txt && pip install uwsgi
+RUN pip install -r requirements.txt && pip install gunicorn && pip install psycopg2-binary
 
 
 
@@ -88,22 +91,26 @@ COPY --from=builder /venv /venv
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
-RUN mkdir /scripts
-COPY ./scripts /scripts
-RUN chmod +x /scripts/*
+COPY  prod-entrypoint.sh  /prod-entrypoint.sh
+RUN chmod +x /prod-entrypoint.sh
 
 # Create folders for the media being served
 
 RUN mkdir -p /vol/web/media && mkdir -p /vol/web/static && mkdir -p /vol/web/whoosh_index
 
 # Create new user in the application, no root. #User can access the vol
-RUN adduser -D user && chown -R user:user /vol && chmod -R 755 /vol/web
+#RUN adduser -D user
+#RUN chown -R user:user /vol
+
+#RUN chmod -R 755 /vol/web
+
+
 
 EXPOSE 8000
 
 
-USER user
+#USER user
 
 
-#CMD ["/docker-entrypoint.sh"]
-
+#CMD ["uwsgi", "--ini", "uwsgi.ini"]
+CMD [ "/prod-entrypoint.sh"]
