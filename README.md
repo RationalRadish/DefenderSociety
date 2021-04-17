@@ -18,3 +18,4 @@ and poetry.lock files are provided to re-create the packages
 to your local environment.
 
 
+Many thanks to HopeTree for providing a template for this project. Please check out their repository @ https://github.com/Hopetree/izone
