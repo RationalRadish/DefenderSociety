@@ -25,15 +25,15 @@ sys.path.insert(0, os.path.join(BASE_DIR,'apps'))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  os.getenv('defender_society_SECRET_KEY','7)88%-kng%o!m042sk1g9mcdt^bi9=w*(4y2)scscxe!nuu2w&')
+SECRET_KEY = os.getenv('defender_society_SECRET_KEY','7)88%-kng%o!m042sk1g9mcdt^bi9=w*(4y2)scscxe!nuu2w&')
 
 API_FLAG = os.getenv('defender_society_API_FLAG','False').upper() =='TRUE'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('defender_society_DEBUG','True').upper() =='TRUE'
+DEBUG = os.getenv('defender_society_DEBUG','False').upper() =='FALSE'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['bbbsky-alumni.org', 'www.bbbsky-alumni.org', '144.126.211.107' ]
 
 
 # Application definition
@@ -171,11 +171,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATIC_ROOT = '/vol/web/static/'
 
 # Media file collection
 MEDIA_URL ='/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_ROOT = '/vol/web/media/'
 
 # Unified paging settings
 BASE_PAGE_BY = 10
@@ -201,21 +205,20 @@ REST_FRAMEWORK = {
 }
 
  #Configure the database
-MYSQL_HOST = os.getenv('defender_society_MYSQL_HOST', '127.0.0.1')
-MYSQL_NAME = os.getenv('defender_society_MYSQL_NAME','test')
-MYSQL_USER = os.getenv('defender_society_MYSQL_USER','root')
-MYSQL_PASSWORD = os.getenv('defender_society_MYSQL_PASSWORD','Whiskeyman42!')
-MYSQL_PORT = os.getenv('defender_society_MYSQL_PORT', 3306)
+POSTGRES_HOST = os.getenv('defender_society_POSTGRES_HOST', 'localhost')
+POSTGRES_NAME = os.getenv('defender_society_POSTGRES_NAME','test')
+POSTGRES_USER = os.getenv('defender_society_POSTGRES_USER','root')
+POSTGRES_PASSWORD = os.getenv('defender_society_POSTGRES_PASSWORD','strong1Passwor!d')
+POSTGRES_PORT = os.getenv('defender_society_POSTGRES_PORT', 5432)
 
 DATABASES = {
     'default': {
-        'ENGINE':'django.db.backends.mysql', # Modify the database to MySQL and configure
-        'NAME': MYSQL_NAME, # The name of the database
-        'USER': MYSQL_USER, # database user name
-        'PASSWORD': MYSQL_PASSWORD, # database password
-        'HOST': MYSQL_HOST,
-        'PORT': MYSQL_PORT,
-        'OPTIONS': {'charset':'utf8'}
+        'ENGINE':'django.db.backends.postgresql_psycopg2', # Modify the database to MySQL and configure
+        'NAME': POSTGRES_NAME, # The name of the database
+        'USER': POSTGRES_USER, # database user name
+        'PASSWORD': POSTGRES_PASSWORD, # database password
+        'HOST': POSTGRES_HOST,
+        'PORT': POSTGRES_PORT
     }
 }
 
@@ -255,7 +258,7 @@ DEFAULT_FROM_EMAIL = os.getenv('defender_society_DEFAULT_FROM_EMAIL','The Defend
 # Website default settings and contextual information
 SITE_LOGO_NAME = os.getenv('defender_society_LOGO_NAME',"The Defender Society")
 SITE_DESCRIPTION = os.getenv('defender_society_SITE_DESCRIPTION','Alumni Association blog for Big Brothers Big Sisters of Kentuckiana')
-SITE_KEYWORDS = os.getenv('defender_society_SITE_KEYWORDS','BBSKY')
+SITE_KEYWORDS = os.getenv('defender_society_SITE_KEYWORDS','BBBSKY')
 SITE_END_TITLE = os.getenv('defender_society_SITE_END_TITLE','')
 
 
@@ -265,6 +268,5 @@ MY_SITE_VERIFICATION = os.getenv('defender_society_SITE_VERIFICATION','')
 # Use http or https (the link in the sitemap can be reflected)
 PROTOCOL_HTTPS = os.getenv('defender_society_PROTOCOL_HTTPS','HTTP').lower()
 
-#'url': os.getenv('IZONE_HAO_URL','https://hao.tendcode.com')
 
 
