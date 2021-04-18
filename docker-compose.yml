@@ -64,7 +64,7 @@ services:
 
   proxy:
       build:
-         context: ./nginx
+         context: nginx
 
       volumes:
         - static_data:/vol/static

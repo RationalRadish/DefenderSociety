@@ -42,3 +42,5 @@ defender_society/.DS_Store
 defender_society/apps/comment/static/comment/emoji/
 
 .idea/
+
+.env

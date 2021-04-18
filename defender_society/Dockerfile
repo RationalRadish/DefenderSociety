@@ -96,10 +96,12 @@ RUN chmod +x /prod-entrypoint.sh
 
 # Create folders for the media being served
 
-RUN mkdir -p /vol/web/media && mkdir -p /vol/web/static && mkdir -p /vol/web/whoosh_index
+RUN mkdir -p /vol/media && mkdir -p /vol/static && mkdir -p /vol/whoosh_index
 
 # Create new user in the application, no root. #User can access the vol
+
 #RUN adduser -D user
+
 #RUN chown -R user:user /vol
 
 #RUN chmod -R 755 /vol/web

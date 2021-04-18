@@ -4,7 +4,7 @@ FROM nginx:1.19
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy over the files created to the sites-available folder.
-COPY ./default.conf /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 #COPY ./uwsgi_params /etc/nginx/sites-available/uwsgi_params
 
 USER root
