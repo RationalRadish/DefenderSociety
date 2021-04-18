@@ -36,9 +36,9 @@ services:
     container_name: django
 
     volumes:
-      - static_data:/vol/web/static
-      - static_data:/vol/web/media
-      - static_data:/vol/web/whoosh_index
+      - static_data:/vol/static
+      - media_data:/app/media
+      - whoosh_data:/app/whoosh_index
 
     ports:
       -  "8000:8000"
@@ -47,7 +47,7 @@ services:
     environment:
       defender_society_POSTGRES_USER: "${defender_society_POSTGRES_USER}"
       defender_society_POSTGRES_NAME: "${defender_society_POSTGRES_NAME}"
-      defender_society_POSTGRES_PASSWORD: "${defender_society_POSTGRES_NAME}"
+      defender_society_POSTGRES_PASSWORD: "${defender_society_POSTGRES_PASSWORD}"
       defender_society_SECRET_KEY: "${defender_society_SECRET_KEY}"
       defender_society_POSTGRES_HOST: db
       defender_society_POSTGRES_PORT: 5432
@@ -68,7 +68,8 @@ services:
 
       volumes:
         - static_data:/vol/static
-        - static_data:/vol/media
+        - media_data:/vol/media
+        - whoosh_data:/vol/whoosh_data
       networks:
         - frontend
       ports:
@@ -79,6 +80,8 @@ services:
 volumes:
   db_data:
   static_data:
+  media_data:
+  whoosh_data:
 
 networks:
   backend:

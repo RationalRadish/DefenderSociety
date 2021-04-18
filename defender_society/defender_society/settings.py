@@ -27,11 +27,11 @@ sys.path.insert(0, os.path.join(BASE_DIR,'apps'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('defender_society_SECRET_KEY','7)88%-kng%o!m042sk1g9mcdt^bi9=w*(4y2)scscxe!nuu2w&')
 
-API_FLAG = os.getenv('defender_society_API_FLAG','False').upper() =='TRUE'
+API_FLAG = os.getenv('defender_society_API_FLAG','False').upper() == 'TRUE'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('defender_society_DEBUG','False').upper() =='FALSE'
+DEBUG = os.getenv('defender_society_DEBUG', False)
 
 ALLOWED_HOSTS = ['bbbsky-alumni.org', 'www.bbbsky-alumni.org', '144.126.211.107' ]
 
@@ -171,15 +171,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATIC_ROOT = '/vol/web/static/'
+STATIC_ROOT = '/vol/static/'
 
 # Media file collection
 MEDIA_URL ='/media/'
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_ROOT = '/vol/web/media/'
+MEDIA_ROOT = '/vol/media/'
 
 # Unified paging settings
 BASE_PAGE_BY = 10
