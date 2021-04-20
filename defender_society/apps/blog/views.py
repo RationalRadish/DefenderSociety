@@ -1,49 +1,50 @@
-from datetime import datetime, date
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.views import generic
-from django.utils.safestring import mark_safe
-from datetime import timedelta
 import calendar
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
+#import datetime
+import time
+from datetime import datetime, date
+from datetime import timedelta
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+import markdown
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.core.cache import cache
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.views import generic
-from django.conf import settings
-from .models import *
-from .utils import Calendar
-from .forms import EventForm, AddMemberForm
-from . utils  import  site_full_url
-from django.core.cache import cache
-
-from markdown.extensions.toc import TocExtension  # Anchor extension
-import markdown
-import time, datetime
-
+from django.views.decorators.cache import cache_page
 from haystack.generic_views import SearchView  # Import search view
 from haystack.query import SearchQuerySet
+from markdown.extensions.toc import TocExtension  # Anchor extension
+from .utils import get_tweets
+from .forms import EventForm, AddMemberForm
+from .models import *
+from .utils import Calendar
+from .utils import site_full_url
+import os
+
+# Cache time for page views
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 # Create your views here.
 
-
-
+#cache content all day
 class ContactView(generic.ListView):
     model = Article
     template_name = 'blog/contact.html'
     context_object_name = 'articles'
-    paginate_by = 200
-    paginate_orphans = 50
-
+    paginate_by = 5
+    paginate_orphans = 2
 
 class IndexView(generic.ListView):
     model = Article
     template_name = 'blog/index.html'
     context_object_name = 'articles'
-    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
+    paginate_by = getattr(settings, 'BASE_PAGE_BY', 5)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
 
     def get_ordering(self):
@@ -51,6 +52,15 @@ class IndexView(generic.ListView):
         if sort == 'v':
             return ('-views', '-update_date', '-id')
         return ('-is_top', '-create_date')
+
+    def get_context_data(self, **kwargs):
+        context_data = super(IndexView, self).get_context_data()
+        static_route = getattr(settings, 'MEDIA_ROOT')
+        img_list = os.listdir(static_route + '/Instagram/')
+        context_data['images'] = img_list
+        context_data['tweets'] = get_tweets()
+        return context_data
+
 
 
 class DetailView(generic.DetailView):
@@ -60,22 +70,8 @@ class DetailView(generic.DetailView):
 
     def get_object(self):
         obj = super(DetailView, self).get_object()
-        # Set the time to judge the increase in page views, the same article is viewed twice for more than half an hour before re-counting the number of views, the author ignores
-        u = self.request.user
-        ses = self.request.session
-        the_key = 'is_read_{}'.format(obj.id)
-        is_read_time = ses.get(the_key)
-        if u != obj.author:
-            if not is_read_time:
-                obj.update_views()
-                ses[the_key] = time.time()
-            else:
-                now_time = time.time()
-                t = now_time - is_read_time
-                if t > 60 * 30:
-                    obj.update_views()
-                    ses[the_key] = time.time()
-        # Get the update time of the article and determine whether to fetch the markdown of the article from the cache, which can avoid converting
+        # Set the time to judge the increase in page views, the same article is viewed twice for more than half an
+        # hour before re-counting the number of views, the author ignores
         ud = obj.update_date.strftime("%Y%m%d%H%M%S")
         md_key = '{}_md_{}'.format(obj.id, ud)
         cache_md = cache.get(md_key)
@@ -97,14 +93,14 @@ class CategoryView(generic.ListView):
     model = Article
     template_name = 'blog/category.html'
     context_object_name = 'articles'
-    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
-    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+    paginate_by = getattr(settings, 'BASE_PAGE_BY', 5)
+    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 2)
 
     def get_ordering(self):
         ordering = super(CategoryView, self).get_ordering()
         sort = self.kwargs.get('sort')
         if sort == 'v':
-            return ('-views', '-update_date', '-id')
+            return '-views', '-update_date', '-id'
         return ordering
 
     def get_queryset(self, **kwargs):
@@ -124,14 +120,14 @@ class TagView(generic.ListView):
     model = Article
     template_name = 'blog/tag.html'
     context_object_name = 'articles'
-    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
-    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+    paginate_by = getattr(settings, 'BASE_PAGE_BY', 5)
+    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 2)
 
     def get_ordering(self):
         ordering = super(TagView, self).get_ordering()
         sort = self.kwargs.get('sort')
         if sort == 'v':
-            return ('-views', '-update_date', '-id')
+            return '-views', '-update_date', '-id'
         return ordering
 
     def get_queryset(self, **kwargs):
@@ -151,15 +147,15 @@ def AboutView(request):
     return render(request, 'blog/about.html', context={'body': ''})
 
 def EligibleView(request):
-    return render(request, 'blog/eligibility.html', context={'body': ''})    
+    return render(request, 'blog/eligibility.html', context={'body': ''})
 
 
 # Rewrite the search view, you can add some additional parameters, and you can redefine the name
 class MySearchView(SearchView):
     context_object_name = 'search_list'
     template_name = 'blog/search.html'
-    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
-    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+    paginate_by = getattr(settings, 'BASE_PAGE_BY', 5)
+    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 2)
     queryset = SearchQuerySet().order_by('-views')
 
 
@@ -172,7 +168,8 @@ def get_date(req_day):
     if req_day:
         year, month = (int(x) for x in req_day.split('-'))
         return date(year, month, day=1)
-    return datetime.datetime.today()
+    return datetime.today()
+
 
 def prev_month(d):
     first = d.replace(day=1)
@@ -180,12 +177,14 @@ def prev_month(d):
     month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
     return month
 
+
 def next_month(d):
     days_in_month = calendar.monthrange(d.year, d.month)[1]
     last = d.replace(day=days_in_month)
     next_month = last + timedelta(days=1)
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
+
 
 class CalendarView(LoginRequiredMixin, generic.ListView):
     model = Event
@@ -201,8 +200,8 @@ class CalendarView(LoginRequiredMixin, generic.ListView):
         context['next_month'] = next_month(d)
         return context
 
-#@login_required(login_url='signup')
-def create_event(request):    
+
+def create_event(request):
     form = EventForm(request.POST or None)
     if request.POST and form.is_valid():
         title = form.cleaned_data['title']
@@ -219,12 +218,13 @@ def create_event(request):
         return HttpResponseRedirect(reverse('blog:calendar'))
     return render(request, 'blog/event.html', {'form': form})
 
+
 class EventEdit(generic.UpdateView):
     model = Event
     fields = ['title', 'description', 'start_time', 'end_time']
     template_name = 'blog/event.html'
 
-#@login_required(login_url='signup')
+
 def event_details(request, event_id):
     event = Event.objects.get(id=event_id)
     eventmember = EventMember.objects.filter(event=event)
@@ -255,6 +255,7 @@ def add_eventmember(request, event_id):
         'form': forms
     }
     return render(request, 'blog/add_member.html', context)
+
 
 class EventMemberDeleteView(generic.DeleteView):
     model = EventMember

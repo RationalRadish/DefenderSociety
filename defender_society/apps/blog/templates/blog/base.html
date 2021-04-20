@@ -1,3 +1,4 @@
+{%  load cache %}
 {% load static %}
 {% load oauth_tags %}
 <!doctype html>
@@ -9,19 +10,26 @@
     <meta name="referrer" content="origin">
     <!-- TDK and ICO -->
     <title>{% block head_title %}{% endblock %}</title>
-    {%  block  metas  %}
+    {% block  metas  %}
     <meta name="description" content="{{ site_description }}">
     <meta name="keywords" content="{{ site_keywords }}">
-    <meta name ="instagram_profile_name" content = "bbbskentuckiana">
     {% endblock %}
-    <link rel="shortcut icon" href="{% static 'blog/img/big_b_icon.ico'%}" type="image/x-icon"/>
+
+{% cache 50000 js %}
     <!-- Bootstrap and font-awesome CSS -->
+    <link rel="shortcut icon" href="{% static 'blog/img/big_b_icon.ico'%}" type="image/x-icon"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" >
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.css"
+          integrity="sha512-8WAX0xL/cHZ38RXoX2gtuqkAwmDVAzGwoFVmHvn46IDHGWOjTHx0vcl9OapNrfOzpFtql0SNkv+0y0b5Fm8ZkA=="
+          crossorigin="anonymous" />
     <script src="{% static 'blog/js/headroom.min.js'%}"></script>
-    <!-- blog CSS -->
+
+  <!-- blog CSS -->
     <link href="{% static 'blog/css/base.css' %}?v=20200919.03" rel="stylesheet">
+
+{% endcache %}
     {% block top-file %}{% endblock %}
 
 
@@ -59,6 +67,8 @@
 
 </main>
 
+{% cache 50000 js2 %}
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
@@ -66,7 +76,11 @@
 <script src="{% static 'blog/js/js.cookie.min.js'%}?v=20191123.12"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.min.js"
+        integrity="sha512-ZajFBgnksNp8Rj+AbmYe8ueOu45HiSjtf3QpqnRbHlq719m6VK0FkbYIqQ8wEnlVuJ1i9pC+z6Z9ewmDnUTMCg=="
+        crossorigin="anonymous"></script>
 <script>
+    {% endcache %}
 $(function(){var myElement=document.querySelector(".blog-navbar");var headroom=new Headroom(myElement);headroom.init()});
 </script>
 <script src="{% static 'blog/js/base.js'%}?v=20191123.0909890"></script>
@@ -77,7 +91,10 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
 </script>
 {% endif %}
 
+
+
 {% block end_file %}
+{%  cache 12000 footer_save %}
 {% url 'blog:eligibility' as eligibility_url %}
 {% url 'blog:about' as about_url %}
 {% url 'blog:archive' as archive_url %}
@@ -121,17 +138,12 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
                         <div class="col-md-4">
                             <h5>Social Feed</h5>
                             <div class="social-feed">
-                                <div class="feed-line">
+                                    <div class="feed-line">
+                                        {% for tweet in tweets %}
                                     <i class="fa fa-twitter"></i>
-                                    <p>How to handle ethical disagreements with your clients.</p>
-                                </div>
-                                <div class="feed-line">
-                                    <i class="fa fa-twitter"></i>
-                                    <p>The tangible benefits of designing at 1x pixel density.</p>
-                                </div>
-                                <div class="feed-line">
-                                    <i class="fa fa-facebook-square"></i>
-                                    <p>A collection of 25 stunning sites that you can use for inspiration.</p>
+                                    <th scope="row">{{ tweet }} </th>
+                                            <br>
+                                        {%  endfor %}
                                 </div>
                             </div>
                         </div>
@@ -173,7 +185,9 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
         </footer>
     </div>
 </footer>
-
+{% endcache %}
 {% endblock %}
+
+
 </body>
 </html>

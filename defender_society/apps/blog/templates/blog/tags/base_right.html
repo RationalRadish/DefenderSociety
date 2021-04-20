@@ -1,22 +1,59 @@
 {% load cache blog_tags static  %}
 {% get_shared_article_list as shared_articles %}
 
-<!--Personal Space-->
 
-
-<div class="card border-0 rounded-0 " id="home-card">
+<div class="card border-0 rounded-0 px-3 mb-2 mb-md-3" id="category-card">
     <div class="card-header bg-white px-0">
-        <strong><i class="fa fa-paper-plane mr-2 f-17"></i>Big Brothers Big Sisters News</strong>
-    
-  <div class="summary-list">
-    {% for article in shared_articles %}
-    <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
-            <h2 class="mt-0 font-weight-bold text-info f-17">
+        <strong><i class="fa"></i>Big Brothers Big Sisters News</strong>
+
+    </div>
+    <div class="list-group-item d-flex justify-content-between align-items-center pr-2 py-2">
+    {% if shared_articles  %}
+        {% for article in shared_articles %}
+            <h2 class="category-item">
                 <a href="{{ article.hyperlink_address }}" target="_blank">{{ article.title}}</a>
             </h2>
 
+            </div>
+
+
     {% endfor %}
+    {% endif %}
+
+{% cache 50000 instagram_cache %}
+<div class="card border-0 rounded-0 px-3 mb-2 mb-md-3" id="category-card">
+    <div class="card-header bg-white px-0">
+        <strong><i class="fa"></i>Check us out on Instagram! </strong>
+
+    </div>
+
+    {% if images %}
+		{% for image in images %}
+			{% with image|split:'.' as strs %}
+				{% with strs|length as str_arr_len %}
+					{% with str_arr_len|add:'-1' as ext_idx %}
+						{% if strs|get_by_index:ext_idx == 'jpg' %}
+							<a href="{{ MEDIA_ROOT }}/media/Instagram/{{ image }}">
+								<img src="{{ MEDIA_ROOT }}/media/Instagram/{{ image }}" alt="{{ image }}">
+							</a>
+						{% endif %}
+					{% endwith %}
+				{% endwith %}
+			{% endwith %}
+			{% if forloop.counter|divisibleby:4 %}
+				<div class="clear"></div>
+			{% endif %}
+		{% endfor %}
+	{% else %}
+		<p>No image available.</p>
+	{% endif %}
+
+	<script type='text/javascript'>
+		$(document).ready(function() {
+			$('.gallery a').simpleLightbox();
+		});
+	</script>
 
 </div>
 
-</div>
+{% endcache %}

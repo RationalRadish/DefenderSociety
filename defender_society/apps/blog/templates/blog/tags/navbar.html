@@ -1,5 +1,5 @@
 {% load static oauth_tags  %}
-<nav class="navbar navbar-expand-lg navbar-absolute blog-navbar py-md-0">
+<nav class="navbar navbar-expand-md navbar-absolute blog-navbar py-md-0">
     <a class="navbar-brand d-md-none d-lg-block" id="site-logo-name" href="{% url 'blog:index' %}">
         <strong class="px-2">{{site_logo_name}}</strong>
     </a>
@@ -43,13 +43,16 @@
                 {% url 'blog:eligibility' as eligibility_url %}
                 <a class="nav-link py-md-3 {% if request.path == eligibility_url %}active{% endif %}" href="{{ eligibility_url }}"><i class="fa mr-1"></i>Eligibility Rules</a>
             </li>
-     
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform" action="{% url 'blog:search_view'%}">
                 <div class="input-group">
                     <input type="search" name="q" class="form-control rounded-0" placeholder="site search" autocomplete="off" required=True>
-                </div><!-- /input-group -->
+                </div>
+
+    </div><!-- /input-group -->
             </form>
+        </ul>
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
@@ -78,6 +81,3 @@
          </ul>
      </div>
 </nav>
-
-
-

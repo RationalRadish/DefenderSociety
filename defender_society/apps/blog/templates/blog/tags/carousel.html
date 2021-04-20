@@ -1,4 +1,5 @@
-{% load static blog_tags %}
+{% load cache static blog_tags %}
+{% cache 4320 carousel_freeze %}
 {% get_carousel_list as carousels %}
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -32,3 +33,5 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+
+{% endcache %}

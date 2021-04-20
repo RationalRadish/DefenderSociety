@@ -11,8 +11,6 @@
         </div>
         <div class="media-body">
             <div class="text-muted mb-2 f-12">
-                {% get_user_avatar_tag article.author %}
-                <span>{{ article.author }}</span>
                 <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i>{{ article.create_date|naturaltime }}</span>
             </div>
             <h2 class="mt-0 font-weight-bold text-info f-17">
@@ -21,7 +19,7 @@
             <p class="d-none d-sm-block mb-2 f-15">{{ article.summary|truncatechars:130 }}</p>
             <p class="d-block d-sm-none mb-2 f-15">{{ article.summary|truncatechars:64 }}</p>
             <div class="text-muted mb-0 f-12">
-                <A  class = "Cate"  the href = "{} {} article.category.get_absolute_url"  title = "View current category more articles" >
+                <A  class = "Cate"  href = "{} {} article.category.get_absolute_url"  title = "View current category more articles" >
                     <i class="fa fa-book mr-1"></i>{{ article.category }}</a>
             </div>
         </div>

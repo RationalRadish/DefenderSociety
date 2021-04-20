@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.urls import path
+from django.urls import path, include
 # from .views import goview
 from .views import *
 
@@ -9,8 +9,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     # path('go/', goview, name='go'), # Test page
-    path('', IndexView.as_view(extra_context={
-        "instagram_profile_name": "bbbskentuckiana"}), name='index'),  # homepage, natural sort
+    path('', IndexView.as_view(), name='index'),  # homepage, natural sort
     path('hot/', IndexView.as_view(), {'sort': 'v'}, name='index_hot'),  # Home page, sorted by page views
     path('article/<slug:slug>/', DetailView.as_view(), name='detail'),  # Article content page
     path('category/<slug:slug>/', CategoryView.as_view(), name='category'),
@@ -28,5 +27,6 @@ urlpatterns = [
     path('event/<int:event_id>/details/', event_details, name='event-detail'),
     path('add_eventmember/<int:event_id>', add_eventmember, name='add_eventmember'),
     path('event/<int:pk>/remove', EventMemberDeleteView.as_view(), name="remove_event"),
+ #   path('instagram-gallery/', include('gallery.urls'))
     
 ]

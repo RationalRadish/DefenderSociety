@@ -65,11 +65,12 @@ class Category(models.Model):
     def get_article_list(self):
         return Article.objects.filter(category=self)
 
+
 class newsArticle(models.Model):
-    title = models.CharField(max_length = 150, verbose_name = 'Shared Article Title')
-    summary = models.CharField(max_length= 150, verbose_name = 'Shared Article Summary' )
+    title = models.CharField(max_length=150, verbose_name='Shared Article Title')
+    summary = models.CharField(max_length=150, verbose_name='Shared Article Summary')
     hyperlink_address = models.CharField('Hyperlink', max_length=200, default='#',
-                           help_text='Hyperlink for the articles listed, default # means no jump')
+                                         help_text='Hyperlink for the articles listed, default # means no jump')
 
     class Meta:
         verbose_name = 'Shared Articles'
@@ -78,13 +79,16 @@ class newsArticle(models.Model):
 
     def __str__(self):
         return self.title
+
+
 # Article
 class Article(models.Model):
-    IMG_LINK = '/ static/blog/img/summary.png '
+    IMG_LINK = '/static/blog/img/summary.png'
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Author', on_delete=models.PROTECT)
     title = models.CharField(max_length=150, verbose_name='Article title')
     summary = models.TextField('Article summary', max_length=230,
-                               default='The article summary is equivalent to the content of the web page description, please be sure to fill in...')
+                               default='The article summary is equivalent to the content of the web page description, '
+                                       'please be sure to fill in...')
     body = models.TextField(verbose_name='Article content')
     img_link = models.CharField('picture address', default=IMG_LINK, max_length=255)
     create_date = models.DateTimeField(verbose_name='Create Time', auto_now_add=True)
@@ -96,7 +100,8 @@ class Article(models.Model):
     category = models.ForeignKey(Category, verbose_name='Article Category', on_delete=models.PROTECT)
     tags = models.ManyToManyField(Tag, verbose_name='tag')
     keywords = models.ManyToManyField(Keyword, verbose_name='Article keywords',
-                                      help_text='Article keywords, used as keywords in SEO, it is best to use long tail words, 3-4 are enough')
+                                      help_text='Article keywords, used as keywords in SEO, it is best to use long '
+                                                'tail words, 3-4 are enough')
 
     class Meta:
         verbose_name = 'Article'
@@ -126,12 +131,11 @@ class Article(models.Model):
         return Article.objects.filter(id__gt=self.id).order_by('id').first()
 
 
-
-
 # Slide
 class Carousel(models.Model):
     number = models.IntegerField('Number',
-                                 help_text='Number determines the order in which pictures are played, no more than 5 pictures')
+                                 help_text='Number determines the order in which pictures are played, no more than 5 '
+                                           'pictures')
     title = models.CharField('title', max_length=20, blank=True, null=True, help_text='title can be empty')
     content = models.CharField('Description', max_length=80)
     img_url = models.CharField('picture address', max_length=200)
@@ -146,7 +150,6 @@ class Carousel(models.Model):
 
     def __str__(self):
         return self.content[: 25]
-
 
 
 class AboutBlog(models.Model):
@@ -166,6 +169,7 @@ class AboutBlog(models.Model):
             'markdown.extensions.extra',
             'markdown.extensions.codehilite',
         ])
+
 
 class RequirementsBlog(models.Model):
     body = models.TextField(verbose_name='Requirements')
@@ -196,7 +200,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return reverse('blog:event-detail', args=(self.id,))
 
@@ -216,4 +220,11 @@ class EventMember(models.Model):
     def __str__(self):
         return str(self.user)
 
-        
+
+# class Tweet(models.Model):
+#     tweet_id = models.CharField(unique=True)
+#     tweet_text = models.TextField()
+#     published_date = models.DateTimeField()
+#
+#     def __str__(self):
+#         return self.tweet_text

@@ -80,3 +80,21 @@ def get_request_param(request, param, default=None):
     '''Get the requested parameters'''
     return request.POST.get(param) or request.GET.get(param, default)
 
+
+@register.simple_tag
+def tweet_list(context, *args, **kwargs):
+    recent_media = get_tweets()
+
+    return {
+        'profile': 'bbbskentuckiana',
+        'tweets': recent_media
+    }
+
+
+@register.filter(name='split')
+def split(str, key):
+    return str.split(key)
+
+@register.filter
+def get_by_index(a, i):
+    return a[i]
