@@ -25,27 +25,35 @@ from .models import *
 from .utils import Calendar
 from .utils import site_full_url
 import os
-
-# Cache time for page views
-CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+from django.views.decorators.cache import cache_page, never_cache
 
 
+class CacheMixin(object):
+    cache_timeout = 60
+
+    def get_cache_timeout(self):
+        return self.cache_timeout
+
+    def dispatch(self, *args, **kwargs):
+        return cache_page(self.get_cache_timeout())(super(CacheMixin, self).dispatch)(*args, **kwargs)
 # Create your views here.
 
 #cache content all day
-class ContactView(generic.ListView):
+class ContactView(CacheMixin, generic.ListView):
     model = Article
     template_name = 'blog/contact.html'
     context_object_name = 'articles'
     paginate_by = 5
     paginate_orphans = 2
+    cache_timeout = 150
 
-class IndexView(generic.ListView):
+class IndexView(CacheMixin, generic.ListView):
     model = Article
     template_name = 'blog/index.html'
     context_object_name = 'articles'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', 5)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+    cache_timeout = 100
 
     def get_ordering(self):
         sort = self.kwargs.get('sort')
@@ -63,10 +71,11 @@ class IndexView(generic.ListView):
 
 
 
-class DetailView(generic.DetailView):
+class DetailView(CacheMixin, generic.DetailView):
     model = Article
     template_name = 'blog/detail.html'
     context_object_name = 'article'
+    cache_timeout = 200
 
     def get_object(self):
         obj = super(DetailView, self).get_object()
@@ -89,12 +98,13 @@ class DetailView(generic.DetailView):
         return obj
 
 
-class CategoryView(generic.ListView):
+class CategoryView(CacheMixin, generic.ListView):
     model = Article
     template_name = 'blog/category.html'
     context_object_name = 'articles'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', 5)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 2)
+    cache_timeout = 200
 
     def get_ordering(self):
         ordering = super(CategoryView, self).get_ordering()
@@ -116,12 +126,13 @@ class CategoryView(generic.ListView):
         return context_data
 
 
-class TagView(generic.ListView):
+class TagView(CacheMixin, generic.ListView):
     model = Article
     template_name = 'blog/tag.html'
     context_object_name = 'articles'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', 5)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 2)
+    cache_timeout = 200
 
     def get_ordering(self):
         ordering = super(TagView, self).get_ordering()
@@ -142,10 +153,10 @@ class TagView(generic.ListView):
         context_data['search_instance'] = tag
         return context_data
 
-
+@cache_page(20000)
 def AboutView(request):
     return render(request, 'blog/about.html', context={'body': ''})
-
+@cache_page(20000)
 def EligibleView(request):
     return render(request, 'blog/eligibility.html', context={'body': ''})
 

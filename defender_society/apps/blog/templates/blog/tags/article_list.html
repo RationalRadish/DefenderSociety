@@ -1,6 +1,6 @@
-{% load blog_tags oauth_tags  %}
+{% load blog_tags oauth_tags cache  %}
 {% load humanize static %}
-
+{% cache 500 articles  %}
 <div class="summary-list">
     {% for article in articles %}
     <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
@@ -27,4 +27,6 @@
     {% empty %}
     <div  class = "p-3 mt-3 bg-white" > <p> There are currently no articles! </p> </div>
     {% endfor %}
+
+{% end cache %}
 </div>
